@@ -1,10 +1,9 @@
 <div class="container">
   <div class="container__left">
-    <h2>new task</h2>
-    <app-add-or-update></app-add-or-update>
+    <app-add-or-update [formTodo]="formTodo"></app-add-or-update>
   </div>
   <div class="container__right">
     <h2>to do list</h2>
-    <app-list-todo></app-list-todo>
+    <app-list-todo [formTodo]="formTodo"></app-list-todo>
   </div>
 </div>

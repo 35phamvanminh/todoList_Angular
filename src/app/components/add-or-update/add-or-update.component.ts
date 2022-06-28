@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { Piority } from 'src/app/models/piority.model';
 import { Todo } from 'src/app/models/todo.model';
+import { TodoService } from 'src/app/services/todo.service';
 
 @Component({
   selector: 'app-add-or-update',
@@ -10,27 +11,45 @@ import { Todo } from 'src/app/models/todo.model';
   styleUrls: ['./add-or-update.component.scss'],
 })
 export class AddOrUpdateComponent implements OnInit {
-  public formGroup: FormGroup;
+  @Input() formTodo!: FormGroup;
   public listPiority: Piority[] = [
     { label: 'Normal', value: 'normal' },
     { label: 'Low', value: 'low' },
     { label: 'High', value: 'high' },
   ];
-  public listTodo: Todo[] = [];
 
-  constructor(private fb: FormBuilder) {
-    this.formGroup = this.fb.group({
+  constructor(private todoService: TodoService) {}
+
+  ngOnInit(): void {}
+
+  get id() {
+    return this.formTodo.get('id') as FormControl;
+  }
+
+  onAdd() {
+    this.todoService.listTodo.push(this.formTodo.value);
+    localStorage.setItem(
+      'listTodo',
+      JSON.stringify(this.todoService.listTodo).toString()
+    );
+    this.formTodo.patchValue({
+      title: null,
+      description: null,
+    });
+  }
+
+  onUpdate() {
+    this.todoService.listTodo.splice(this.id.value - 1, 1, this.formTodo.value);
+    localStorage.setItem(
+      'listTodo',
+      JSON.stringify(this.todoService.listTodo).toString()
+    );
+    this.id.setValue(null);
+    this.formTodo.patchValue({
       title: null,
       description: null,
       dueDate: moment(new Date()).format('YYYY-MM-DD'),
       piority: 'normal',
     });
-  }
-
-  ngOnInit(): void {}
-
-  onSubmit() {
-    // this.listTodo.push(this.formGroup.value);
-    // localStorage.setItem('listTodo', JSON.stringify(this.listTodo).toString());
   }
 }

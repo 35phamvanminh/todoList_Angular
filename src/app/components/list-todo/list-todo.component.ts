@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Todo } from 'src/app/models/todo.model';
 import { TodoService } from 'src/app/services/todo.service';
 
@@ -8,7 +9,11 @@ import { TodoService } from 'src/app/services/todo.service';
   styleUrls: ['./list-todo.component.scss'],
 })
 export class ListTodoComponent implements OnInit {
+  @Input() formTodo!: FormGroup;
   public listTodo: Todo[] = [];
+  public listChecked: boolean[] = [];
+  public isShowBulkAction: boolean = false;
+  public listTodoChecked: Todo[] = [];
 
   constructor(private todoService: TodoService) {}
 
@@ -16,5 +21,35 @@ export class ListTodoComponent implements OnInit {
     this.listTodo = this.todoService.listTodo;
   }
 
-  onDetailClick(index: number) {}
+  onDetailClick(item: any, index: number) {
+    this.formTodo.patchValue({
+      id: index + 1,
+      title: item.title,
+      description: item.description,
+      dueDate: item.dueDate,
+      piority: item.piority,
+    });
+  }
+
+  onRemoveClick(record: Todo, index: number) {
+    this.listTodo.splice(index, 1);
+    localStorage.setItem('listTodo', JSON.stringify(this.listTodo).toString());
+  }
+
+  onChangeCheckbox(event: any, index: number) {
+    this.listChecked[index] = event.target.checked;
+    this.isShowBulkAction = this.listChecked.some((item) => item === true);
+  }
+
+  onBulkActionRemove() {
+    this.listChecked.forEach((item, index) => {
+      if (item === true) {
+        this.listTodoChecked.push(this.listTodo[index]);
+      }
+    });
+    this.listTodo = this.listTodo.filter(
+      (item, index) => !this.listTodoChecked.includes(item)
+    );
+    localStorage.setItem('listTodo', JSON.stringify(this.listTodo).toString());
+  }
 }

@@ -1,4 +1,5 @@
-<form class="wrapper" [formGroup]="formGroup">
+<form class="wrapper" [formGroup]="formTodo">
+  <h2>{{ !!id.value ? "update task" : "new task" }}</h2>
   <div class="form-group">
     <input type="text" placeholder="Add new task ..." formControlName="title" />
   </div>
@@ -25,6 +26,13 @@
   </div>
 
   <div class="form-group">
-    <button class="btn" (click)="onSubmit()">Add</button>
+    <button
+      [disabled]="this.formTodo.invalid"
+      [ngClass]="{'invalid': this.formTodo.invalid}"
+      class="btn"
+      (click)="!!id.value ? onUpdate() : onAdd()"
+    >
+      {{ !!id.value ? "Update" : "Add" }}
+    </button>
   </div>
 </form>
