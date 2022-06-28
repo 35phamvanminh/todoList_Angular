@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { Piority } from 'src/app/models/piority.model';
-import { Todo } from 'src/app/models/todo.model';
 import { TodoService } from 'src/app/services/todo.service';
 
 @Component({

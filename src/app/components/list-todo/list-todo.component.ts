@@ -1,16 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import {
-  debounceTime,
-  delay,
-  interval,
-  map,
-  Observable,
-  of,
-  startWith,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { switchMap } from 'rxjs';
 import { Todo } from 'src/app/models/todo.model';
 import { TodoService } from 'src/app/services/todo.service';
 
@@ -33,12 +23,8 @@ export class ListTodoComponent implements OnInit {
     this.listTodo = this.todoService.listTodo;
 
     this.keySearch.valueChanges
-      .pipe(
-        startWith(''),
-        switchMap((value) => this.todoService.search(value))
-      )
+      .pipe(switchMap((value) => this.todoService.search(value)))
       .subscribe((data) => {
-        console.log(data);
         this.listTodo = data;
       });
   }

@@ -24,3 +24,14 @@
     padding-bottom: 30px;
   }
 }
+
+@media only screen and (max-width: 739px) {
+  .container {
+    display: block;
+
+    &__left {
+      border-right: none;
+      border-bottom: 1px solid #000;
+    }
+  }
+}
