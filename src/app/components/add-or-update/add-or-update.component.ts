@@ -12,6 +12,7 @@ import { TodoService } from 'src/app/services/todo.service';
 })
 export class AddOrUpdateComponent implements OnInit {
   @Input() formTodo!: FormGroup;
+  public minDateDefault: string = moment(new Date()).format('YYYY-MM-DD');
   public listPiority: Piority[] = [
     { label: 'Normal', value: 'normal' },
     { label: 'Low', value: 'low' },
@@ -24,6 +25,10 @@ export class AddOrUpdateComponent implements OnInit {
 
   get id() {
     return this.formTodo.get('id') as FormControl;
+  }
+
+  get dueDate() {
+    return this.formTodo.get('dueDate') as FormControl;
   }
 
   onAdd() {

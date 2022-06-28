@@ -1,5 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
+import {
+  debounceTime,
+  delay,
+  interval,
+  map,
+  Observable,
+  of,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { Todo } from 'src/app/models/todo.model';
 import { TodoService } from 'src/app/services/todo.service';
 
@@ -14,11 +25,22 @@ export class ListTodoComponent implements OnInit {
   public listChecked: boolean[] = [];
   public isShowBulkAction: boolean = false;
   public listTodoChecked: Todo[] = [];
+  public keySearch: FormControl = new FormControl('');
 
   constructor(private todoService: TodoService) {}
 
   ngOnInit(): void {
     this.listTodo = this.todoService.listTodo;
+
+    this.keySearch.valueChanges
+      .pipe(
+        startWith(''),
+        switchMap((value) => this.todoService.search(value))
+      )
+      .subscribe((data) => {
+        console.log(data);
+        this.listTodo = data;
+      });
   }
 
   onDetailClick(item: any, index: number) {
