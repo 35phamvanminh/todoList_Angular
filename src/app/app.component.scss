@@ -1,0 +1,28 @@
+
+
+.container {
+  margin-top: 81px;
+  width: 1209px;
+  height: 958px;
+  margin: 0 auto;
+  border: 1px solid #000;
+  display: flex;
+  &__left {
+    width: 50%;
+    border-right: 1px solid #000;
+  }
+
+  &__right {
+    width: 50%;
+    position: relative;
+  }
+
+  h2 {
+    text-transform: capitalize;
+    font-size: 18px;
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 30px;
+  }
+}

@@ -1,0 +1,33 @@
+<div class="wrapper">
+  <div class="form-group">
+    <input type="text" placeholder="Add new task ..." />
+  </div>
+
+  <ng-container *ngFor="let item of listTodo; let index = index">
+    <div class="item-todo">
+      <div class="item-todo__content">
+        <input type="checkbox" />
+        <span>do homework</span>
+      </div>
+
+      <div class="item-todo__action">
+        <button (click)="onDetailClick(index)" class="btn btn_detail">
+          Detail
+        </button>
+        <button class="btn btn_remove">Remove</button>
+      </div>
+    </div>
+    <div class="item-todo__update">
+      <app-add-or-update></app-add-or-update>
+    </div>
+  </ng-container>
+</div>
+
+<!-- BULK ACTION -->
+<div class="bulk-action">
+  <span>Bulk Action:</span>
+  <div class="item-todo__action">
+    <button class="btn btn_detail">Done</button>
+    <button class="btn btn_remove">Remove</button>
+  </div>
+</div>

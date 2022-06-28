@@ -1,0 +1,30 @@
+<form class="wrapper" [formGroup]="formGroup">
+  <div class="form-group">
+    <input type="text" placeholder="Add new task ..." formControlName="title" />
+  </div>
+
+  <div class="form-group">
+    <label for="desc">Description</label>
+    <textarea id="desc" formControlName="description"></textarea>
+  </div>
+
+  <div class="options">
+    <div class="form-group">
+      <label for="due_date">due date</label>
+      <input type="date" id="due_date" formControlName="dueDate" />
+    </div>
+
+    <div class="form-group">
+      <label for="piority">piority</label>
+      <select id="piority" formControlName="piority">
+        <option *ngFor="let item of listPiority" [value]="item.value">
+          {{ item.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <button class="btn" (click)="onSubmit()">Add</button>
+  </div>
+</form>
